@@ -19,13 +19,13 @@ jobs:
     strategy:
       matrix:
         file:
-          - default
+          - renovate # default is ambiguous
           - renovate-config
     env:
       RENOVATE_CONFIG_FILE: ${{ matrix.file }}.json
 
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2 # stick to the major version as github recommends for actions
 
       - name: testing ${{ matrix.file }}
         run: npx -p renovate renovate-config-validator
