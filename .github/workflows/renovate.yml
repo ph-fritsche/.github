@@ -1,0 +1,31 @@
+name: renovate
+
+# This is a copy of the workflow renovatebot uses itself to verify config presets
+# see https://github.com/renovatebot/.github/blob/master/.github/workflows/test.yml
+# Copyright 2020 WhiteSource Ltd
+
+on:
+  push:
+  pull_request:
+
+env:
+  LOG_LEVEL: debug
+
+jobs:
+  preset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        file:
+          - default
+          - renovate-config
+    env:
+      RENOVATE_CONFIG_FILE: ${{ matrix.file }}.json
+
+    steps:
+      - uses: actions/checkout@v2.3.4
+
+      - name: testing ${{ matrix.file }}
+        run: npx -p renovate renovate-config-validator
